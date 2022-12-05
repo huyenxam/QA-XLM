@@ -167,13 +167,15 @@ class Trainer(object):
         torch.save(checkpoint, path)
         torch.save(self.args, os.path.join(self.args.save_folder, 'training_args.bin'))
         
-    def load_model_train(self):
+    def save_model(self):
+        checkpoint = {'model': self.model,
+                      'state_dict': self.model.state_dict(),
+                      }
         path = os.path.join(self.save_folder, 'checkpoint.pth')
-        checkpoint = torch.load(path)
-        self.model = checkpoint['model']
-        self.model.load_state_dict(checkpoint['state_dict'])
-    
-    def load_model_dev(self):
+        torch.save(checkpoint, path)
+        torch.save(self.args, os.path.join(self.args.save_folder, 'training_args.bin'))
+
+    def load_model(self):
         path = os.path.join(self.save_folder, 'checkpoint.pth')
         checkpoint = torch.load(path)
         self.model = checkpoint['model']
